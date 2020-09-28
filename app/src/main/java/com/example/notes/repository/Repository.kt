@@ -11,4 +11,8 @@ interface Repository {
     suspend fun update(note: AppNote, onSuccess: () -> Unit)
 
     suspend fun delete(note: AppNote, onSuccess: () -> Unit)
+
+    fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
+
+    fun signOut(onSuccess: () -> Unit){}
 }

@@ -29,7 +29,7 @@
     <Button
         android:id="@+id/btn_update"
         style="@style/btn"
-        android:layout_width="@dimen/btn_width"
+        android:layout_width="@dimen/width"
         android:layout_height="wrap_content"
         android:text="@string/btn_update"
         app:layout_constraintStart_toStartOf="parent"

@@ -42,6 +42,7 @@ class MainFragment : Fragment() {
         mAdapter = MainAdapter()
         mRecyclerView = mBinding.recycleView
         mRecyclerView.adapter = mAdapter
+        //Наблюдатель за изменением листа содержащего модель AppNote. При изменении добавляет новый элемент в mAdapter
         mObserver = Observer {
             val list = it.asReversed()
             mAdapter.setList(list)
@@ -49,6 +50,7 @@ class MainFragment : Fragment() {
         mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mViewModel.allNote.observe(this, mObserver)
         hideKeyBoard()
+        //Нажатие на кнопку добавить заметку
         mBinding.btnAdd.setOnClickListener{
             APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_addNewNoteFragment)
         }

@@ -8,7 +8,7 @@
     </style>
 
     <style name="btn">
-        <item name="android:layout_width">@dimen/btn_width</item>
+        <item name="android:layout_width">@dimen/width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorWhite</item>

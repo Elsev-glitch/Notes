@@ -24,4 +24,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/btn" />
 
+    <Button
+        android:id="@+id/btn_firebase"
+        android:text="@string/btn_firebase"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_room"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/btn" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="@dimen/width"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_email"
+        android:layout_margin="@dimen/app_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_firebase"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="@dimen/width"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_password"
+        android:layout_margin="@dimen/app_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="@string/text_login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        style="@style/btn"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

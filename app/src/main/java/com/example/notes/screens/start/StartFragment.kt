@@ -10,8 +10,7 @@ import com.example.notes.R
 import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.databinding.FragmentStartBinding
 import com.example.notes.screens.main.MainViewModel
-import com.example.notes.utilits.APP_ACTIVITY
-import com.example.notes.utilits.TYPE_ROOM
+import com.example.notes.utilits.*
 
 class StartFragment : Fragment() {
 
@@ -37,6 +36,25 @@ class StartFragment : Fragment() {
         mBinding.btnRoom.setOnClickListener {
             mViewModel.initRepository(TYPE_ROOM){
                 APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
+            }
+        }
+        mBinding.btnFirebase.setOnClickListener {
+            mBinding.email.visibility = View.VISIBLE
+            mBinding.password.visibility = View.VISIBLE
+            mBinding.btnLogin.visibility = View.VISIBLE
+            mBinding.btnLogin.setOnClickListener {
+                val email = mBinding.email.text.toString()
+                val password = mBinding.password.text.toString()
+                if (email.isNotEmpty() && password.isNotEmpty()){
+                    EMAIL = email
+                    PASSWORD = password
+                    mViewModel.initRepository(TYPE_FIREBASE){
+//                        APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
+                        showToast("ok")
+                    }
+                } else {
+                    showToast(getString(R.string.start_empty))
+                }
             }
         }
     }

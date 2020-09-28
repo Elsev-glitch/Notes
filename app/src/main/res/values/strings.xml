@@ -10,4 +10,9 @@
     <string name="btn_update">Обновить</string>
     <string name="title">Замтки</string>
     <string name="input_name">Необходимо ввести название</string>
+    <string name="btn_firebase">Firebase</string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
+    <string name="text_login">login</string>
+    <string name="start_empty">Нет почты или пароля</string>
 </resources>
