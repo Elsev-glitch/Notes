@@ -9,9 +9,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application):AndroidViewModel(application) {
-    fun update(note:AppNote, onSuccess:()->Unit){
+    fun update(note:AppNote, onSuccess:()->Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            REPOSITORY.update(note) {
+                onSuccess()
+            }
+        }
+    }
+
+    fun delete(note: AppNote, onSuccess:()->Unit){
         viewModelScope.launch(Dispatchers.IO){
-            REPOSITORY.update(note){
+            REPOSITORY.delete(note){
                 onSuccess()
             }
         }

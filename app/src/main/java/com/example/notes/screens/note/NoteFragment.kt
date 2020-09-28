@@ -1,23 +1,14 @@
 package com.example.notes.screens.note
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.R
-import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.databinding.FragmentNoteBinding
 import com.example.notes.model.AppNote
-import com.example.notes.screens.main.MainAdapter
-import com.example.notes.screens.main.MainViewModel
 import com.example.notes.utilits.APP_ACTIVITY
-import com.example.notes.utilits.hideKeyBoard
 import com.example.notes.utilits.showToast
-import kotlinx.android.synthetic.main.fragment_add_new_note.*
 
 class NoteFragment : Fragment() {
 
@@ -40,6 +31,7 @@ class NoteFragment : Fragment() {
     }
 
     private fun init() {
+        setHasOptionsMenu(true)
         mCurrentNote = arguments?.getSerializable("note") as AppNote
         mBinding.noteName.setText(mCurrentNote.name)
         mBinding.noteText.setText(mCurrentNote.text)
@@ -51,11 +43,26 @@ class NoteFragment : Fragment() {
             if (name.isEmpty()){
                 showToast(getString(R.string.input_name))
             } else {
-                mViewModel.update(AppNote(name = name, text = text)) {
+                mViewModel.update(AppNote(id=mCurrentNote.id, name = name, text = text)) {
                     APP_ACTIVITY.navController.navigate(R.id.action_noteFragment_to_mainFragment)
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.delete_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.delete -> {
+                mViewModel.delete(mCurrentNote){
+                    APP_ACTIVITY.navController.navigate(R.id.action_noteFragment_to_mainFragment)
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
