@@ -49,8 +49,7 @@ class StartFragment : Fragment() {
                     EMAIL = email
                     PASSWORD = password
                     mViewModel.initRepository(TYPE_FIREBASE){
-//                        APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
-                        showToast("ok")
+                        APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
                     }
                 } else {
                     showToast(getString(R.string.start_empty))

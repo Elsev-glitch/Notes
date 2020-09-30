@@ -43,7 +43,7 @@ class NoteFragment : Fragment() {
             if (name.isEmpty()){
                 showToast(getString(R.string.input_name))
             } else {
-                mViewModel.update(AppNote(id=mCurrentNote.id, name = name, text = text)) {
+                mViewModel.update(AppNote(id=mCurrentNote.id, name = name, text = text, idFirebase = mCurrentNote.idFirebase)) {
                     APP_ACTIVITY.navController.navigate(R.id.action_noteFragment_to_mainFragment)
                 }
             }

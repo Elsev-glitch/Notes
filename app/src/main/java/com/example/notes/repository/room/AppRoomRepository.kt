@@ -24,6 +24,5 @@ class AppRoomRepository(private val appRoomDao: AppRoomDao):Repository {
     }
 
     override fun signOut(onSuccess: () -> Unit) {
-        super.signOut(onSuccess)
     }
 }

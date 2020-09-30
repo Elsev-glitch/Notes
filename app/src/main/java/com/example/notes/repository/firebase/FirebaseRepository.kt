@@ -12,17 +12,34 @@ class FirebaseRepository:Repository {
         AUTH = FirebaseAuth.getInstance()
     }
 
-    override val allNotes: LiveData<List<AppNote>> = AllNoteLiveData()
+    override val allNotes: LiveData<List<AppNote>>
+        get() = AllNoteLiveData()
+
     override suspend fun insert(note: AppNote, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        var newNote = mutableMapOf<String, Any>()
+        val idFirebase = REF_DATABASE.push().key.toString()
+        newNote.put(ID_FIREBASE, idFirebase)
+        newNote.put(NAME, note.name)
+        newNote.put(TEXT, note.text)
+        REF_DATABASE.child(idFirebase).setValue(newNote)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { showToast(it.message.toString()) }
     }
 
     override suspend fun update(note: AppNote, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        var newNote = mutableMapOf<String, Any>()
+        newNote.put(ID_FIREBASE, note.idFirebase)
+        newNote.put(NAME, note.name)
+        newNote.put(TEXT, note.text)
+        REF_DATABASE.child(note.idFirebase).updateChildren(newNote)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { showToast(it.message.toString()) }
     }
 
     override suspend fun delete(note: AppNote, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        REF_DATABASE.child(note.idFirebase).removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { showToast(it.message.toString()) }
     }
 
     override fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit) {
@@ -44,7 +61,7 @@ class FirebaseRepository:Repository {
     }
 
     override fun signOut(onSuccess: () -> Unit) {
-        super.signOut(onSuccess)
+        AUTH.signOut()
     }
 
     private fun initRef(){

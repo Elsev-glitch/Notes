@@ -21,7 +21,7 @@ class StartViewModel(application: Application):AndroidViewModel(application) {
             }
             TYPE_FIREBASE -> {
                 REPOSITORY = FirebaseRepository()
-                REPOSITORY.connectToDatabase({onSuccess()}, { it })
+                REPOSITORY.connectToDatabase({onSuccess()}, { showToast(it) })
             }
         }
     }
