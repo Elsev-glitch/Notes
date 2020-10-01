@@ -14,5 +14,5 @@ interface Repository {
 
     fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit){}
 
-    fun signOut(onSuccess: () -> Unit){}
+    fun signOut(){}
 }

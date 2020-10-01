@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.notes.databinding.ActivityMainBinding
 import com.example.notes.utilits.APP_ACTIVITY
+import com.example.notes.utilits.Preference
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-    }
-
-    override fun onStart() {
-        super.onStart()
+        Preference.getPreference(this)
         init()
     }
 

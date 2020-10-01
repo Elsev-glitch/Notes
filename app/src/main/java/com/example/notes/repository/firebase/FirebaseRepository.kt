@@ -16,7 +16,7 @@ class FirebaseRepository:Repository {
         get() = AllNoteLiveData()
 
     override suspend fun insert(note: AppNote, onSuccess: () -> Unit) {
-        var newNote = mutableMapOf<String, Any>()
+        val newNote = mutableMapOf<String, Any>()
         val idFirebase = REF_DATABASE.push().key.toString()
         newNote.put(ID_FIREBASE, idFirebase)
         newNote.put(NAME, note.name)
@@ -27,7 +27,7 @@ class FirebaseRepository:Repository {
     }
 
     override suspend fun update(note: AppNote, onSuccess: () -> Unit) {
-        var newNote = mutableMapOf<String, Any>()
+        val newNote = mutableMapOf<String, Any>()
         newNote.put(ID_FIREBASE, note.idFirebase)
         newNote.put(NAME, note.name)
         newNote.put(TEXT, note.text)
@@ -43,24 +43,29 @@ class FirebaseRepository:Repository {
     }
 
     override fun connectToDatabase(onSuccess: () -> Unit, onFail: (String) -> Unit) {
-        AUTH.signInWithEmailAndPassword(EMAIL, PASSWORD)
-            .addOnSuccessListener {
-                initRef()
-                onSuccess()
-            }
-            .addOnFailureListener {
-                AUTH.createUserWithEmailAndPassword(EMAIL, PASSWORD)
-                    .addOnSuccessListener {
-                        initRef()
-                        onSuccess()
-                    }
-                    .addOnFailureListener {
-                        onFail(it.message.toString())
-                    }
-            }
+        if (Preference.getInitUser()){
+            initRef()
+            onSuccess()
+        } else {
+            AUTH.signInWithEmailAndPassword(EMAIL, PASSWORD)
+                .addOnSuccessListener {
+                    initRef()
+                    onSuccess()
+                }
+                .addOnFailureListener {
+                    AUTH.createUserWithEmailAndPassword(EMAIL, PASSWORD)
+                        .addOnSuccessListener {
+                            initRef()
+                            onSuccess()
+                        }
+                        .addOnFailureListener {
+                            onFail(it.message.toString())
+                        }
+                }
+        }
     }
 
-    override fun signOut(onSuccess: () -> Unit) {
+    override fun signOut() {
         AUTH.signOut()
     }
 

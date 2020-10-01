@@ -23,6 +23,6 @@ class AppRoomRepository(private val appRoomDao: AppRoomDao):Repository {
         onSuccess()
     }
 
-    override fun signOut(onSuccess: () -> Unit) {
+    override fun signOut() {
     }
 }

@@ -1,10 +1,8 @@
 package com.example.notes.screens.main
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +11,7 @@ import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.model.AppNote
 import com.example.notes.screens.main.MainViewModel
 import com.example.notes.utilits.APP_ACTIVITY
+import com.example.notes.utilits.Preference
 import com.example.notes.utilits.hideKeyBoard
 
 
@@ -54,6 +53,8 @@ class MainFragment : Fragment() {
         mBinding.btnAdd.setOnClickListener{
             APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_addNewNoteFragment)
         }
+
+        setHasOptionsMenu(true)
     }
 
     companion object{
@@ -62,6 +63,21 @@ class MainFragment : Fragment() {
             bundle.putSerializable("note", note)
             APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_noteFragment, bundle)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.exit_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.exit -> {
+                mViewModel.signOut()
+                Preference.setInitUser(false)
+                APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_startFragment)
+            }
+        }
+        return true
     }
 
     override fun onDestroyView() {
