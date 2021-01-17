@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notes.MainActivity
 import com.example.notes.R
 import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.model.AppNote
-import com.example.notes.screens.main.MainViewModel
-import com.example.notes.utilits.APP_ACTIVITY
 import com.example.notes.utilits.Preference
 import com.example.notes.utilits.hideKeyBoard
 
@@ -38,7 +37,7 @@ class MainFragment : Fragment() {
     }
 
     private fun init() {
-        mAdapter = MainAdapter()
+        mAdapter = MainAdapter({onClick(it)})
         mRecyclerView = mBinding.recycleView
         mRecyclerView.adapter = mAdapter
         //Наблюдатель за изменением листа содержащего модель AppNote. При изменении добавляет новый элемент в mAdapter
@@ -51,18 +50,16 @@ class MainFragment : Fragment() {
         hideKeyBoard()
         //Нажатие на кнопку добавить заметку
         mBinding.btnAdd.setOnClickListener{
-            APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_addNewNoteFragment)
+            (activity as MainActivity).navController.navigate(R.id.action_mainFragment_to_addNewNoteFragment)
         }
 
         setHasOptionsMenu(true)
     }
 
-    companion object{
-        fun click(note: AppNote){
-            val bundle = Bundle()
-            bundle.putSerializable("note", note)
-            APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_noteFragment, bundle)
-        }
+    private fun onClick(note: AppNote) {
+        val bundle = Bundle()
+        bundle.putSerializable("note", note)
+        (activity as MainActivity).navController.navigate(R.id.action_mainFragment_to_noteFragment, bundle)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -74,7 +71,7 @@ class MainFragment : Fragment() {
             R.id.exit -> {
                 mViewModel.signOut()
                 Preference.setInitUser(false)
-                APP_ACTIVITY.navController.navigate(R.id.action_mainFragment_to_startFragment)
+                (activity as MainActivity).navController.navigate(R.id.action_mainFragment_to_startFragment)
             }
         }
         return true

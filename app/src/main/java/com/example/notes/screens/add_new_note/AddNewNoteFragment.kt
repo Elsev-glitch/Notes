@@ -1,17 +1,15 @@
 package com.example.notes.screens.add_new_note
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.MainActivity
 import com.example.notes.R
 import com.example.notes.databinding.FragmentAddNewNoteBinding
-import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.model.AppNote
-import com.example.notes.screens.main.MainViewModel
-import com.example.notes.utilits.APP_ACTIVITY
 import com.example.notes.utilits.showToast
 
 class AddNewNoteFragment : Fragment() {
@@ -43,7 +41,7 @@ class AddNewNoteFragment : Fragment() {
                 showToast(getString(R.string.input_name))
             } else {
                 mViewModel.insert(AppNote(name = name, text = text)) {
-                    APP_ACTIVITY.navController.navigate(R.id.action_addNewNoteFragment_to_mainFragment)
+                    (activity as MainActivity).navController.navigate(R.id.action_addNewNoteFragment_to_mainFragment)
                 }
             }
         }

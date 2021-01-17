@@ -1,15 +1,14 @@
 package com.example.notes.screens.start
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.MainActivity
 import com.example.notes.R
-import com.example.notes.databinding.FragmentMainBinding
 import com.example.notes.databinding.FragmentStartBinding
-import com.example.notes.screens.main.MainViewModel
 import com.example.notes.utilits.*
 
 class StartFragment : Fragment() {
@@ -29,9 +28,9 @@ class StartFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         mViewModel = ViewModelProvider(this).get(StartViewModel::class.java)
-        if (Preference.getInitUser()){
-            mViewModel.initRepository(Preference.getDatabaseType()){
-                APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
+        if (Preference.getInitUser()) {
+            mViewModel.initRepository(Preference.getDatabaseType()) {
+                (activity as MainActivity).navController.navigate(R.id.action_startFragment_to_mainFragment)
             }
         } else {
             init()
@@ -40,10 +39,10 @@ class StartFragment : Fragment() {
 
     private fun init() {
         mBinding.btnRoom.setOnClickListener {
-            mViewModel.initRepository(TYPE_ROOM){
+            mViewModel.initRepository(TYPE_ROOM) {
                 Preference.setDatabaseType(TYPE_ROOM)
                 Preference.setInitUser(true)
-                APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
+                (activity as MainActivity).navController.navigate(R.id.action_startFragment_to_mainFragment)
             }
         }
         mBinding.btnFirebase.setOnClickListener {
@@ -53,13 +52,13 @@ class StartFragment : Fragment() {
             mBinding.btnLogin.setOnClickListener {
                 val email = mBinding.email.text.toString()
                 val password = mBinding.password.text.toString()
-                if (email.isNotEmpty() && password.isNotEmpty()){
+                if (email.isNotEmpty() && password.isNotEmpty()) {
                     EMAIL = email
                     PASSWORD = password
-                    mViewModel.initRepository(TYPE_FIREBASE){
+                    mViewModel.initRepository(TYPE_FIREBASE) {
                         Preference.setDatabaseType(TYPE_FIREBASE)
                         Preference.setInitUser(true)
-                        APP_ACTIVITY.navController.navigate(R.id.action_startFragment_to_mainFragment)
+                        (activity as MainActivity).navController.navigate(R.id.action_startFragment_to_mainFragment)
                     }
                 } else {
                     showToast(getString(R.string.start_empty))

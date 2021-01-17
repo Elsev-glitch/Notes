@@ -9,7 +9,7 @@ import com.example.notes.R
 import com.example.notes.model.AppNote
 import kotlinx.android.synthetic.main.note_item.view.*
 
-class MainAdapter:RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private var click:(note:AppNote)->Unit):RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var mListNote = emptyList<AppNote>()
 
@@ -25,7 +25,7 @@ class MainAdapter:RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     override fun onViewAttachedToWindow(holder: MainViewHolder) {
         holder.itemView.setOnClickListener {
-            MainFragment.click(mListNote[holder.adapterPosition])
+            click(mListNote[holder.adapterPosition])
         }
     }
 

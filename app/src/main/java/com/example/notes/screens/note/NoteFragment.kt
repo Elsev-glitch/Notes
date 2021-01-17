@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.notes.MainActivity
 import com.example.notes.R
 import com.example.notes.databinding.FragmentNoteBinding
 import com.example.notes.model.AppNote
-import com.example.notes.utilits.APP_ACTIVITY
 import com.example.notes.utilits.showToast
 
 class NoteFragment : Fragment() {
@@ -37,14 +37,21 @@ class NoteFragment : Fragment() {
         mBinding.noteText.setText(mCurrentNote.text)
 
         mViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
-        mBinding.btnUpdate.setOnClickListener{
+        mBinding.btnUpdate.setOnClickListener {
             val name = mBinding.noteName.text.toString()
             val text = mBinding.noteText.text.toString()
-            if (name.isEmpty()){
+            if (name.isEmpty()) {
                 showToast(getString(R.string.input_name))
             } else {
-                mViewModel.update(AppNote(id=mCurrentNote.id, name = name, text = text, idFirebase = mCurrentNote.idFirebase)) {
-                    APP_ACTIVITY.navController.navigate(R.id.action_noteFragment_to_mainFragment)
+                mViewModel.update(
+                    AppNote(
+                        id = mCurrentNote.id,
+                        name = name,
+                        text = text,
+                        idFirebase = mCurrentNote.idFirebase
+                    )
+                ) {
+                    (activity as MainActivity).navController.navigate(R.id.action_noteFragment_to_mainFragment)
                 }
             }
         }
@@ -55,10 +62,10 @@ class NoteFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.delete -> {
-                mViewModel.delete(mCurrentNote){
-                    APP_ACTIVITY.navController.navigate(R.id.action_noteFragment_to_mainFragment)
+                mViewModel.delete(mCurrentNote) {
+                    (activity as MainActivity).navController.navigate(R.id.action_noteFragment_to_mainFragment)
                 }
             }
         }
